@@ -1,0 +1,290 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Base Styles === */
+@layer base {
+	:root {
+		--primary-color: 139, 92, 246;
+		--secondary-color: 100, 116, 139;
+		--accent: 239, 68, 68;
+		--success: 34, 197, 94;
+		--warning-color: 251, 191, 36;
+
+		--bright: 254, 254, 254;
+
+		--main-1: 251, 249, 251;
+		--main-2: 226, 226, 228;
+		--main-3: 237, 233, 254;
+		--main-4: 63, 63, 70;
+
+		--box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 4px 0px;
+	}
+
+	.dark {
+		--primary-color: 109, 40, 217;
+
+		--bright: 4, 4, 4;
+		--main-1: 39, 39, 42;
+		--main-2: 63, 63, 70;
+		--main-3: 24, 24, 27;
+		--main-4: 161, 161, 170;
+	}
+
+	body {
+		@apply font-sans text-zinc-800 leading-normal antialiased;
+		background: #f3f3f3;
+	}
+
+	h1 {
+		@apply text-4xl font-extrabold;
+	}
+
+	h2 {
+		@apply text-3xl font-bold;
+	}
+
+	h3 {
+		@apply text-2xl font-semibold;
+	}
+
+	h4 {
+		@apply text-md font-medium;
+	}
+
+	h5 {
+		@apply font-medium;
+		font-size: 18px !important;
+	}
+
+	p {
+		@apply text-base leading-relaxed text-sm;
+	}
+
+	ul,
+	ol {
+		@apply list-inside list-disc pl-5 text-sm;
+	}
+
+	a {
+		@apply transition-colors;
+	}
+
+	.text-opposite {
+		color: var(--main-4);
+	}
+
+	.dark .text-opposite {
+		color: var(--main-4);
+	}
+
+	button {
+		@apply cursor-pointer;
+	}
+
+	/* === Dark Mode === */
+	.dark {
+		@apply bg-zinc-900 text-zinc-300;
+	}
+}
+
+/* === Components === */
+@layer components {
+	/* Buttons */
+	.btn-primary {
+		@apply text-white bg-primary px-4 py-1 rounded-md font-medium shadow-sm transition-colors;
+		box-shadow: var(--box-shadow);
+	}
+
+	.btn-primary:hover {
+		@apply bg-primary/90;
+	}
+
+	.btn-primary:focus {
+		@apply outline-none ring-2 ring-primary ring-opacity-50;
+	}
+
+	.btn-disabled {
+		@apply bg-gray-400 text-gray-600 cursor-not-allowed opacity-70;
+	}
+
+	/* Boxes */
+	.dark .outer-box {
+		@apply bg-black bg-opacity-20;
+	}
+	.outer-box {
+		@apply mt-4 p-4 rounded-lg bg-white;
+		box-shadow: 0px 0px 1px 1.5px rgba(45, 45, 45, 0.1);
+	}
+
+	/* Badges */
+	.badge {
+		@apply inline-block px-2 py-1 text-xs font-medium rounded-md bg-primary text-white;
+	}
+
+	.badge-warning {
+		@apply bg-warning-color text-zinc-900;
+	}
+
+	.badge-success {
+		@apply bg-success text-white;
+	}
+}
+
+/* === Utilities === */
+@layer utilities {
+	/* Visibility Helpers */
+	.hidden-scrollbar {
+		@apply overflow-auto;
+	}
+
+	.hidden-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+/* === Input Wrappers === */
+label {
+	@apply block mb-[5px] text-sm text-zinc-900 font-secondary font-light whitespace-nowrap;
+}
+.variant-stock label {
+	@apply min-w-[100px];
+}
+
+.variant-stock input {
+	@apply max-w-32 w-20;
+}
+
+input,
+textarea,
+select {
+	@apply w-full outline-none border border-zinc-400 px-2 py-[2px] text-xs rounded-md transition-colors duration-300 ease-in-out;
+}
+
+input::placeholder,
+textarea::placeholder {
+	font-size: 14px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+	@apply border-primary shadow-sm text-xs;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+
+.checkbox-wrapper {
+	@apply flex items-center space-x-2;
+}
+
+.checkbox-input {
+	@apply w-4 h-4 border border-zinc-400 rounded-md transition-colors duration-300 ease-in-out;
+}
+
+.checkbox-input:checked {
+	@apply bg-primary border-primary;
+}
+
+.checkbox-input:focus {
+	@apply ring-1 ring-primary/30;
+}
+
+.checkbox label {
+	@apply mb-0;
+}
+
+/* ======================================
+               Input States 
+=======================================*/
+.error input,
+.error textarea {
+	@apply border-accent bg-accent/10;
+}
+
+main.dark .error input,
+main.dark .error textarea {
+	@apply border-accent bg-accent/10;
+}
+
+/* ======================================
+         Dark Mode for Inputs 
+======================================= */
+main.dark input,
+main.dark textarea,
+main.dark select {
+	@apply bg-zinc-800 border-zinc-600 text-zinc-100;
+}
+
+main.dark label {
+	@apply text-zinc-200;
+}
+
+main.dark .checkbox-input {
+	@apply bg-zinc-800 border-zinc-400 outline-none;
+}
+
+main.dark .checkbox-input:checked {
+	@apply bg-primary border-primary;
+}
+/* ======================================
+      css for the tox tiny desc  
+=========================================*/
+
+main .tox.tox-tinymce {
+	@apply border border-zinc-400;
+}
+main .tox .tox-icon svg {
+	width: 20px;
+}
+main .tox .tox-icon {
+	width: 22px;
+}
+main .tox .tox-toolbar__group {
+	padding: 0px 3px;
+}
+
+main.dark .tox-editor-container,
+main.dark .tox-editor-header,
+main.dark .tox-editor-header .tox-toolbar,
+main.dark .tox-editor-header .tox-toolbar-overlord,
+main.dark .tox-editor-header .tox-tox-toolbar__primary,
+main.dark .tox-toolbar button,
+main.dark .tox-edit-area__iframe,
+main.dark .tox-statusbar {
+	background: #272727 !important;
+}
+main.dark .tox-toolbar svg,
+main.dark .tox-statusbar * {
+	fill: rgb(161, 161, 170) !important;
+	color: rgb(161, 161, 170) !important;
+}
+
+/* ======================================
+      css for the image uploader 
+=========================================*/
+
+main .image-grid {
+	@apply outline-none border border-zinc-400;
+}
+main .image-grid .empty-state {
+	@apply border-zinc-400;
+}
+
+main.dark .image-grid {
+	background: #272727;
+}
+main.dark .image-grid svg {
+	fill: rgb(161, 161, 170);
+}
+main.dark .image-grid * {
+	color: rgb(161, 161, 170);
+}
