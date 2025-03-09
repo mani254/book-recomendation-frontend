@@ -25,11 +25,11 @@ export function validation(action, value) {
          }
          return ""
       case "description":
-         const description = /^.{0,1500}$/;
+         const description = /^.{0,4500}$/;
 
-         if (!description.test(value)) {
-            return "Description should be less than 450 characters";
-         }
+         // if (!description.test(value)) {
+         //    return "Description should be less than 4500 characters";
+         // }
          return "";
 
       case "email":

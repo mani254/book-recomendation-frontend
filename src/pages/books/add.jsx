@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { NumberInput, TextArea, TextInput } from "@/components/FormComponents/FormComponents";
 import { validation } from "@/utils/indes";
 import axios from "axios";
+import SuggestionSearch from "@/components/FormComponents/SuggestionSearch";
 
 function Add() {
 	const [bookDetails, setBookDetails] = useState({
@@ -24,6 +25,7 @@ function Add() {
 
 	const [image, setImage] = useState(null);
 	const [preview, setPreview] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	const handleInputChange = useCallback(({ target: { name, value } }) => {
 		setBookDetails((prev) => ({ ...prev, [name]: value }));
@@ -63,6 +65,7 @@ function Add() {
 			return;
 		}
 
+		setLoading(true);
 		const formData = new FormData();
 		Object.keys(bookDetails).forEach((key) => formData.append(key, bookDetails[key]));
 		formData.append("image", image);
@@ -83,11 +86,42 @@ function Add() {
 			} catch (err) {
 				alert(err.response?.data?.message || "Product adding failed");
 				console.error("Error:", err);
+			} finally {
+				setLoading(false);
 			}
 		}
 		fetch();
 	};
 
+	const fetchAuthorSuggestions = useCallback(async (query) => {
+		try {
+			const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/authors`, { params: query });
+
+			if (response?.data.authors) {
+				const data = response.data.authors.map((author) => author.name);
+				return data;
+			}
+			return [];
+		} catch (err) {
+			console.error("Error fetching authors:", err);
+			return [];
+		}
+	}, []);
+
+	const fetchGenreSuggestions = useCallback(async (query) => {
+		try {
+			const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/genres`, { params: query });
+
+			if (response?.data.genres) {
+				const data = response.data.genres.map((gene) => gene.name);
+				return data;
+			}
+			return [];
+		} catch (err) {
+			console.error("Error fetching genres:", err);
+			return [];
+		}
+	}, []);
 	return (
 		<form className="p-6 max-w-6xl mx-auto min-h-screen rounded-lg overflow-hidden mt-2 bg-main" onSubmit={handleSubmit}>
 			<h4 className="mb-5">Add Book 📚</h4>
@@ -99,8 +133,14 @@ function Add() {
 						<TextArea label="Description" placeholder="Book Description" name="description" error={errors.description || ""} value={bookDetails.description} onChange={handleInputChange} rows={8} className="mb-4" required={true} />
 					</div>
 					<div className="outer-box">
-						<TextInput label="Author" placeholder="Book Author" name="author" error={errors.author || ""} value={bookDetails.author} onChange={handleInputChange} className="mb-4" required={true} />
-						<TextInput label="Genre" placeholder="Book Genre" name="genre" error={errors.genre || ""} value={bookDetails.genre} onChange={handleInputChange} className="mb-4" required={true} />
+						<div className="mb-3">
+							<SuggestionSearch label="Author" placeholder="Book Author" selected={bookDetails} setSelected={setBookDetails} allowManual={true} single={true} value={"author"} fetchSuggestions={fetchAuthorSuggestions} />
+						</div>
+						<div className="mb-3">
+							<SuggestionSearch label="Genre" placeholder="Book Genre" selected={bookDetails} setSelected={setBookDetails} allowManual={true} single={true} value={"genre"} fetchSuggestions={fetchGenreSuggestions} />
+						</div>
+						{/* <TextInput label="Author" placeholder="Book Author" name="author" error={errors.author || ""} value={bookDetails.author} onChange={handleInputChange} className="mb-4" required={true} /> */}
+						{/* <TextInput label="Genre" placeholder="Book Genre" name="genre" error={errors.genre || ""} value={bookDetails.genre} onChange={handleInputChange} className="mb-4" required={true} /> */}
 						<NumberInput label="Published Year" placeholder="Book Published Year" name="publishedYear" error={errors.publishedYear || ""} value={bookDetails.publishedYear} onChange={handleInputChange} className="mb-4" required={true} />
 					</div>
 				</div>
@@ -114,8 +154,8 @@ function Add() {
 							</div>
 						)}
 					</div>
-					<button type="submit" className="btn-primary w-full mt-4">
-						Add Book
+					<button type="submit" className="btn-primary w-full mt-4" disabled={loading}>
+						{loading ? "Adding..." : "Add Book"}
 					</button>
 				</div>
 			</div>
