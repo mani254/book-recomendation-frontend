@@ -70,7 +70,7 @@ const SingleSuggestionSearch = ({ setSelected, fetchSuggestions, allowManual = f
 		<div className="relative">
 			<TextInput ref={inputRef} label={label} placeholder={placeholder} value={search} onChange={(e) => setSearch(e.target.value)} onFocus={() => setIsFocused(true)} onBlur={() => setTimeout(() => setIsFocused(false), 200)} onKeyDown={handleKeyDown} />
 			{!flag && isFocused && suggestions.length > 0 && (
-				<div className="absolute w-full bg-white border mt-1 max-h-52 overflow-y-auto shadow-md rounded">
+				<div className="absolute w-full bg-white border mt-1 max-h-52 overflow-y-auto shadow-md rounded z-[500]">
 					{suggestions.map((suggestion, index) => (
 						<div key={suggestion} onMouseDown={(e) => e.preventDefault()} onClick={() => handleSelect(suggestion)} className={`p-2 cursor-pointer ${index === activeIndex ? "bg-gray-200" : ""}`}>
 							{suggestion}
