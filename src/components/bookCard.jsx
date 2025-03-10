@@ -27,7 +27,7 @@ function BookCard({ book, setBooks }) {
 
 	return (
 		<div className="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden relative group p-4 transition-all duration-300 hover:shadow-2xl">
-			<ImageComponent path={book.image || "/pubic/uploads"} alt="Book Cover" className="w-full h-48 object-cover rounded-lg" />
+			<ImageComponent path={book.image || "/pubic/uploads"} alt="Book Cover" className="w-full h-48 object-contain rounded-lg" />
 
 			<div className="mt-4">
 				<h3 className="text-md font-semibold text-gray-800">{book.title}</h3>

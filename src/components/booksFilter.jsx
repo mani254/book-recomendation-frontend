@@ -40,9 +40,10 @@ function BooksFilter() {
 	);
 
 	// function to handle the staus change
-	const handleStatusChange = useCallback(
+	const handleSortChange = useCallback(
 		(e) => {
-			setParam("status", e.target.value);
+			setParam("sortBy", e.target.value);
+			setParam("sortOrder", "asc");
 			setParam("page", 1);
 		},
 		[setParam]
@@ -65,18 +66,17 @@ function BooksFilter() {
 
 			<div className="flex gap-4 items-center">
 				<div className="flex gap-4 items-center">
-					{/* <SelectInput
-						label="Status:"
+					<SelectInput
+						label="SortBy"
 						className="flex gap-2"
-						value={getParam("status")}
-						onChange={handleStatusChange}
+						value={getParam("sortBy")}
+						onChange={handleSortChange}
 						options={[
 							{ label: "All", value: "" },
-							{ label: "Draft", value: "draft" },
-							{ label: "Active", value: "active" },
-							{ label: "Inactive", value: "inactive" },
+							{ label: "PublishedYear", value: "publishedYear" },
+							{ label: "title", value: "title" },
 						]}
-					/> */}
+					/>
 					<SelectInput
 						label="Items per page:"
 						className="flex gap-2"
