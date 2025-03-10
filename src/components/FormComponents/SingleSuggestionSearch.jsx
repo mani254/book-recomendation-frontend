@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { TextInput } from "./FormComponents";
 
-const SingleSuggestionSearch = ({ setSelected, fetchSuggestions, allowManual = false, value = null, label = null, placeholder = null }) => {
+const SingleSuggestionSearch = ({ setSelected, fetchSuggestions, allowManual = false, value = null, label = null, placeholder = null, defaultValue = null }) => {
 	const [search, setSearch] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
 	const [isFocused, setIsFocused] = useState(false);
@@ -31,6 +31,11 @@ const SingleSuggestionSearch = ({ setSelected, fetchSuggestions, allowManual = f
 
 		return () => clearTimeout(handler);
 	}, [search, fetchSuggestions]);
+
+	useEffect(() => {
+		console.log(defaultValue);
+		if (defaultValue) setSearch(defaultValue);
+	}, [defaultValue]);
 
 	const handleSelect = useCallback(
 		(suggestion) => {
